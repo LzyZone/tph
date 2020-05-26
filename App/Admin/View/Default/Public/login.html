@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title><{$Think.config.sys_title}></title>
+  <link rel="stylesheet" media="screen" href="__ADMIN__/login/css/dmaku.main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="referrer" content="origin">
+</head>
+<body>
+<div class="wrapper">
+  <div class="top_wrapper">
+    <div class="container">
+      <div class="col-sm-12 header">
+        <img src="__ADMIN__/login/images/logo.png" width="140" height="37" class="retina">
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 login_content_wrapper">
+        <div class="content_wrapper">
+          <div id="messages" class="alert alert-danger"><p>无效的电子邮件或密码.</p></div>
+          <h1 class="title"><{$Think.config.SYS_TITLE}>信息管理系统</h1>
+          <form class="new_user_session" id="loginform" action="<{:U('Login/checkLogin')}>" accept-charset="UTF-8" method="post">
+            <input name="utf8" type="hidden" value="✓">
+            <div class="form-group">
+              <label for="username">用户名</label>
+              <input autofocus="autofocus" class="form-control" type="text" value="" name="username" id="username">
+            </div>
+            <div class="form-group">
+              <label for="password">密码</label>
+              <input autocomplete="off" class="form-control" type="password" name="password" id="password">
+            </div>
+            <div class="form-group">
+              <label for="code">验证码</label>
+              <div>
+                <input autofocus="autofocus" maxlength="4" class="form-control code-input" type="text"  name="code" id="code">
+                <img src="<{:U('Login/verify')}>" class="code">
+                <label id="code-error-block"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-xs-12">
+                  <input class="btn btn-default btn-success" style="width:100%;" value="登&nbsp;&nbsp;入" type="submit">
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+        <p class="copyright">© 2020</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<style type="text/css">
+  #yddContainer{display:block;font-family:Microsoft YaHei;position:relative;width:100%;height:100%;top:-4px;left:-4px;font-size:12px;border:1px solid}
+  #yddTop{display:block;height:22px}#yddTopBorderlr{display:block;position:static;height:17px;padding:2px 28px;line-height:17px;font-size:12px;color:#5079bb;font-weight:bold;border-style:none solid;border-width:1px}
+  #yddTopBorderlr .ydd-sp{position:absolute;top:2px;height:0;overflow:hidden}
+  .ydd-icon{left:5px;width:17px;padding:0px 0px 0px 0px;padding-top:17px;background-position:-16px -44px}
+  .ydd-close{right:5px;width:16px;padding-top:16px;background-position:left -44px}
+  #yddKeyTitle{float:left;text-decoration:none}
+  #yddMiddle{display:block;margin-bottom:10px}
+  .ydd-tabs{display:block;margin:5px 0;padding:0 5px;height:18px;border-bottom:1px solid}
+  .ydd-tab{display:block;float:left;height:18px;margin:0 5px -1px 0;padding:0 4px;line-height:18px;border:1px solid;border-bottom:none}
+  .ydd-trans-container{display:block;line-height:160%}
+  .ydd-trans-container a{text-decoration:none;}
+  #yddBottom{position:absolute;bottom:0;left:0;width:100%;height:22px;line-height:22px;overflow:hidden;background-position:left -22px}
+  .ydd-padding010{padding:0 10px}
+  #yddWrapper{color:#252525;z-index:10001;background:url(chrome-extension://eopjamdnofihpioajgfdikhhbobonhbb/ab20.png);}
+  #yddContainer{background:#fff;border-color:#4b7598}
+  #yddTopBorderlr{border-color:#f0f8fc}
+  #yddWrapper .ydd-sp{background-image:url(chrome-extension://eopjamdnofihpioajgfdikhhbobonhbb/ydd-sprite.png)}
+  #yddWrapper a,#yddWrapper a:hover,#yddWrapper a:visited{color:#50799b}
+  #yddWrapper .ydd-tabs{color:#959595}.ydd-tabs,.ydd-tab{background:#fff;border-color:#d5e7f3}
+  #yddBottom{color:#363636}#yddWrapper{min-width:250px;max-width:400px;}
+  .form-group .code-input{width:45%;display: inline-block;}
+  .form-group .code{width:auto;height:38px;cursor: pointer;}
+  #messages{display: none;}
+
+  /*文本框的错误状态*/
+  input.error,select.error,radio.error,textarea.error{background-color:#fbe2e2; border-color:#c66161; color:#c00}
+  label.error{ color:#ef392b; font-size: 12px;margin-bottom:0;display: inline;}
+</style>
+<script type="text/javascript" src="__LIB__/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="__LIB__/layer/1.9.3/layer.js"></script>
+<script type="text/javascript">
+  var validator;
+  $(function(){
+    $('.code').bind('click',function(){
+      $(this).attr('src',$(this).attr('src'));
+    });
+
+    validator = $("#loginform").validate({
+      rules:{
+        username:{
+          required:true
+        },
+        password:{
+          required:true,
+        },
+        code:{
+          required:true,
+        }
+      },
+      messages: {
+        username: {
+          required: '请输入用户名！'
+        },
+        password: {
+          required: '请输入密码!'
+        },
+        code: {
+          required: '请输入验证码!'
+        }
+      },
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "code") {
+          $('#code-error-block').html('');
+          error.appendTo("#code-error-block");
+        }else {
+          error.insertAfter(element);
+        }
+      },
+      onkeyup:false,
+      focusCleanup:false,
+      success:"valid",
+      submitHandler:function(form){
+        var loading = layer.load('登录中...');
+        $.ajax({
+          url:$(form).attr('action'),
+          type:'POST',
+          dataType:'JSON',
+          data:$(form).serialize(),
+          success:function(data){
+            layer.close(loading);
+            if(data.status == 'y'){
+              window.location.href = data.url;
+              return;
+            }
+            show_error(data.msg);
+          },
+          error:function(){
+            layer.close(loading);
+          }
+        });
+        return false;
+        $(form).ajaxSubmit({success:function(data){
+            if(data.status == 'y'){
+              window.location.href = 'index';
+              return false;
+            }
+            layer.close(loading);
+            switch (data.id){
+              case "user_name":
+                validator.showErrors({
+                  user_name:data.msg
+                });
+                break;
+              case "passwd":
+                validator.showErrors({
+                  passwd:data.msg
+                });
+                break;
+              case "image_code":
+                validator.showErrors({
+                  image_code:data.msg
+                });
+                break;
+              default:
+                layer.msg(data.msg,{icon:5});
+            }
+            return false;
+          }});
+      }
+    });
+
+    $('.form-control').bind('focus',function(){
+      $('#messages').text('').hide();
+    })
+
+  })
+  function show_error(msg){
+    $('#messages').text(msg).show();
+  }
+</script>
+</html>

@@ -1,0 +1,82 @@
+<include file="Public/header" />
+<style type="text/css">
+	.table tbody tr.active,.table tbody tr.active>td,.table tbody tr.active>th,.table tbody tr .active{background-color:#F5F5F5!important}
+	label.error{top:12px;}
+	.input-text[type="number"]{width:100%;}
+	.teacher-info-hide{display: none;}
+</style>
+
+<article class="page-container">
+	<form class="form form-horizontal" id="my-form" action="" method="post">
+		<input type="hidden" name="id" value="<{$data.role_id|default=''}>">
+		<table class="table table-border table-bg table-bordered layer-table">
+			<tbody>
+			<tr>
+				<th class="title" width="80">角色名</th>
+				<td>
+					<input type="text" class="input-text" name="role_name" value="<{$data.role_name}>">
+				</td>
+
+				<th class="title" width="80">状态</th>
+				<td width="120">
+					<div class="radio-box">
+						<input name="status" type="radio" id="display-2" value="1" <if condition="$data['status'] eq '1'">checked="checked"</if> >
+						<label for="display-2">启用</label>
+					</div>
+					<div class="radio-box">
+						<input name="status" type="radio" id="display-1" value="0" <if condition="$data['status'] eq '0'">checked="checked"</if> >
+						<label for="display-1">禁用</label>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th class="title" style="width:80px;">描述</th>
+				<td colspan="3">
+					<textarea class="textarea" name="role_info"><{$data.role_info}></textarea>
+				</td>
+			</tr>
+			</tbody>
+
+		</table>
+		<input class="btn btn-primary radius"  style="display: none;" id="do-submit" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+	</form>
+</article>
+
+<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript">
+	var default_role_id = '<{$userData.role_id}>';
+	var select_role_id = default_role_id;
+	var tip = 0;
+    $(function(){
+        $("#my-form").validate({
+            rules:{
+                role_name:{
+                    required:true
+                }
+            },messages: {
+                role_name: {
+                    required: '请输入角色名称!'
+                }
+            },
+            onkeyup:false,
+            focusCleanup:false,
+            success:"valid",
+            submitHandler:function(form){
+            	$.post('',$(form).serialize(),function(data){
+					if(data.status == 'y'){
+						parent.layer.msg('操作成功！',{time:1500,icon:1},function(){
+							parent.location.reload();
+						});
+						return false;
+					}else{
+						parent.layer.msg(data.msg,{icon:5});
+					}
+				});
+            }
+        });
+
+
+    });
+</script>
+</body>
+</html>

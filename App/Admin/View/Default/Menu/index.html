@@ -1,0 +1,27 @@
+﻿<include file="Public/header" />
+<?=get_nav_title()?>
+<div class="pd-20">
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+        <span class="l">
+            <a href="javascript:;" onclick="x_admin_open('添加菜单','<{:U(\'Menu/add\')}>','700','360')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加菜单</a>
+        </span>
+	</div>
+	<table class="table table-border table-bordered table-bg table-hover">
+		<thead>
+		<tr class="text-c">
+			<th width="80">ID</th>
+			<th>菜单名称</th>
+			<th width="100">管理</th>
+		</tr>
+		</thead>
+		<tbody>
+		<{$menu_html}>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript" src="__JS__/H-ui.js"></script>
+<script type="text/javascript" src="__JS__/H-ui.admin.js"></script> 
+<script type="text/javascript">
+</script>
+</body>
+</html>

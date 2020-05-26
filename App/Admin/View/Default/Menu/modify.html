@@ -1,0 +1,145 @@
+<include file="Public/header" />
+<style type="text/css">
+	.table tbody tr.active,.table tbody tr.active>td,.table tbody tr.active>th,.table tbody tr .active{background-color:#F5F5F5!important}
+	label.error{top:12px;}
+	.input-text[type="number"]{width:100%;}
+	.teacher-info-hide{display: none;}
+</style>
+
+<article class="page-container" style="padding:0;">
+	<form class="form form-horizontal" id="my-form" action="" method="post">
+		<input type="hidden" name="id" value="<{$data.id}>">
+		<table class="table table-border table-bg table-bordered layer-table">
+			<tbody>
+			<tr>
+				<th class="title">上级菜单</th>
+				<td>
+					<span class="select-box">
+					<select class="select" name="parentid" size="1">
+						<option value="0">作为一级菜单</option>
+						<{$menu_html}>
+					</select>
+					</span>
+				</td>
+
+				<th class="title">菜单名称</th>
+				<td>
+					<input type="text" class="input-text" name="name" value="<{$data.name}>">
+				</td>
+			</tr>
+			<tr>
+
+				<th class="title">模块名</th>
+				<td>
+					<input type="text" class="input-text" value="<{$data.m}>" name="menu_m">
+				</td>
+
+				<th class="title">文件名</th>
+				<td>
+					<input type="text" class="input-text" value="<{$data.c}>" name="menu_c">
+				</td>
+			</tr>
+
+			<tr>
+				<th class="title">方法名</th>
+				<td>
+					<input type="text" class="input-text" value="<{$data.a}>" name="menu_a">
+				</td>
+				<th class="title">附加参数</th>
+				<td>
+					<input type="text" class="input-text" value="<{$data.data}>" name="data">
+				</td>
+			</tr>
+
+			<tr>
+				<th class="title">是否显示</th>
+				<td>
+					<div class="radio-box">
+						<input name="display" type="radio" id="display-1" value="1" <eq name="data.display" value="1">checked</eq> >
+						<label for="display-1">是</label>
+					</div>
+					<div class="radio-box">
+						<input type="radio" id="display-2" value="0" name="display" <eq name="data.display" value="0">checked</eq> >
+						<label for="display-2">否</label>
+					</div>
+				</td>
+
+				<th class="title">排序</th>
+				<td>
+					<input type="number" min="0" class="input-text" value="<{$data.listorder|default=99}>" name="listorder">
+				</td>
+			</tr>
+
+			<tr>
+				<th class="title">图标字体</th>
+				<td colspan="3">
+					<input type="text" class="input-text" value="<{$data.iconfont|htmlentities}>" name="iconfont">
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<input class="btn btn-primary radius" id="do-submit" style="display: none;" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+	</form>
+</article>
+
+<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#my-form").validate({
+            rules:{
+                name:{
+                    required:true
+                },
+				m:{
+					required:true
+				},
+				c:{
+					required:true
+				},
+				a:{
+					required:true
+				},
+            },messages: {
+                name: {
+                    required: '请输入菜单名称!'
+                },
+				m: {
+					required: '请输入模块名!'
+				},
+				c: {
+					required: '请输入文件名!'
+				},
+				a: {
+					required: '请输入方法名!'
+				}
+            },
+            onkeyup:false,
+            focusCleanup:false,
+            success:"valid",
+            submitHandler:function(form){
+            	$.ajax({
+					url:$(form).attr('action'),
+					type:'POST',
+					dataType:'JSON',
+					data:$(form).serialize(),
+					success:function(data){
+						if(data.status == 'y'){
+							parent.layer.msg('操作成功！',{time:1500,icon:1},function(){
+								parent.location.reload();
+							});
+							return false;
+						}else{
+							parent.layer.msg(data.msg,{icon:5});
+						}
+					},
+					error:function(){
+						parent.layer.msg('服务器请求超时',{icon:5});
+					}
+				});
+				return false;
+            }
+        });
+    });
+</script>
+</body>
+</html>
